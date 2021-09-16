@@ -1,8 +1,6 @@
 import fetcher, { createRequestBody, GATEWAY_BASE_URL } from './api';
 
 export type GetTodosRequestParams = {
-  limit: number;
-  page: number;
   done: boolean | null;
 };
 
@@ -49,22 +47,16 @@ export async function getTodo(todoId: string): Promise<GetTodoResponse> {
 export async function getTodos(
   req: GetTodosRequestParams
 ): Promise<GetTodosResponse> {
-  let p;
-  if (req.done === null) {
-    p = {
-      limit: `${req.limit}`,
-      page: `${req.page}`,
-    };
-  } else {
-    p = {
-      limit: `${req.limit}`,
-      page: `${req.page}`,
+  let url;
+  if (req.done !== null) {
+    const p = {
       done: req.done.toString(),
     };
+    const params = new URLSearchParams(p);
+    url = `${GATEWAY_BASE_URL}/todos?${params}`;
+  } else {
+    url = `${GATEWAY_BASE_URL}/todos`;
   }
-  const params = new URLSearchParams(p);
-  const url = `${GATEWAY_BASE_URL}/todos?${params}`;
-
   return fetcher<GetTodosResponse>(url);
 }
 

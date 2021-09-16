@@ -63,7 +63,7 @@ services:
     build:
       context: ./frontapp
       args:
-        - app_backend=http://grpc-sample-gateway-server:9092/v1
+        - app_backend=http://localhost:9092/v1
     tty: true
     stdin_open: true
     volumes:

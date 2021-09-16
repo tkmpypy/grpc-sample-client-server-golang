@@ -35,8 +35,6 @@ const Todo: React.FC = () => {
 
   const fetchAllTodo = async () => {
     const allTodos = await getTodos({
-      limit: 0,
-      page: 0,
       done: null
     });
     const todos = allTodos.todos.filter((t) => !t.done);
@@ -47,8 +45,6 @@ const Todo: React.FC = () => {
 
   const fetchTodo = async () => {
     const todo = await getTodos({
-      limit: 0,
-      page: 0,
       done: false,
     });
     setTodoList(todo.todos);
@@ -56,8 +52,6 @@ const Todo: React.FC = () => {
 
   const fetchDone = async () => {
     const done = await getTodos({
-      limit: 0,
-      page: 0,
       done: true,
     });
     setDoneList(done.todos);
