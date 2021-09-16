@@ -1,0 +1,6 @@
+proto_outdir = "./proto"
+
+[[dependencies]]
+  target = "github.com/tkmpypy/grpc-sample-proto"
+  branch = "main"
+

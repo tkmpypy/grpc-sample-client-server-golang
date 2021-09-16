@@ -1,28 +1,44 @@
 # grpc-sample-server-golang
 
+## About
+
+this sample repository is monolithic repository.
+
 ## Prerequired
 
-| tool                                                                             | summary                                                                |
-| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| [Golang](https://golang.org/doc/devel/release.html)                              | Golang runtime                                                         |
-| [Protocol buffer compiler](https://github.com/protocolbuffers/protobuf/releases) | Protocol Buffer compiler                                               |
-| protoc-gen-go                                                                    | protoc plugin for Golang                                               |
-| protoc-gen-go-grpc                                                               | protoc plugin for Golang                                               |
-| [protodep](https://github.com/stormcat24/protodep)                               | Dependency tool for Protocol Buffers IDL file (.proto) vendoring tool. |
-| [Buf](https://github.com/bufbuild/buf)                                           | Building a modern Protobuf ecosystem                                   |
+| tool                                                                             | summary                                                                                                                  |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| [Golang](https://golang.org/doc/devel/release.html)                              | Golang runtime                                                                                                           |
+| [Protocol buffer compiler](https://github.com/protocolbuffers/protobuf/releases) | Protocol Buffer compiler                                                                                                 |
+| protoc-gen-go                                                                    | protoc plugin for Golang                                                                                                 |
+| protoc-gen-go-grpc                                                               | protoc plugin for Golang                                                                                                 |
+| [protoc-gen-grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway)        | It reads protobuf service definitions and generates a reverse-proxy server which translates a RESTful HTTP API into gRPC |
+| [protodep](https://github.com/stormcat24/protodep)                               | Dependency tool for Protocol Buffers IDL file (.proto) vendoring tool.                                                   |
+| [Buf](https://github.com/bufbuild/buf)                                           | Building a modern Protobuf ecosystem                                                                                     |
 
-## Dependencies
+## Preparation
 
-1. `protodep up -u`
-2. `buf gen proto`
+### Dependencies
 
-## Run
+```sh
+$ cd ./server
+$ protodep up -u -f
+$ buf mod update
+$ buf build
+$ buf generate
+$ go mod tidy
+```
 
-### Go
+or 
 
-1. `go run server/server.go`
-2. `go run client/client.go`
+```sh
+$ cd ./server
+$ make dep
+```
 
-### Make
+_and do same operation in `./gateway` directory_
 
-1. `make run`
+## Build and Run
+
+1. `docker-compose up`
+2. Go to `http://localhost:3003` in your browser

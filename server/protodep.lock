@@ -1,0 +1,9 @@
+proto_outdir = "./proto"
+
+[[dependencies]]
+  target = "github.com/tkmpypy/grpc-sample-proto"
+  subgroup = ""
+  revision = "926483899209b6ffab99a5d097f517c61ab9e03b"
+  branch = "main"
+  path = ""
+  protocol = ""

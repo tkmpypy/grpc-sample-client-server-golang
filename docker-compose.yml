@@ -1,0 +1,78 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: grpc-sample-mysql
+    volumes:
+      - ./.db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: todo
+      MYSQL_USER: example
+      MYSQL_PASSWORD: example
+      TZ: 'Asia/Tokyo'
+    ports:
+      - "3306:3306"
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  back_server:
+    container_name: grpc-sample-back-server
+    build:
+      context: ./server
+      target: dev
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./server/:/go/src/app
+    environment:
+      APP_PORT: 9091
+      DB_USER: example
+      DB_PASSWORD: example
+      DB_PORT: 3306
+      DB_HOST: db
+      DB_NAME: todo
+      TZ: 'Asia/Tokyo'
+    ports:
+      - 9091:9091
+    depends_on:
+      - db
+
+  gateway_server:
+    container_name: grpc-sample-gateway-server
+    build:
+      context: ./gateway
+      target: dev
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./gateway/:/go/src/app
+    environment:
+      BACKEND_HOST: "grpc-sample-back-server"
+      BACKEND_PORT: 9091
+      APP_PORT: 9092
+      TZ: 'Asia/Tokyo'
+    ports:
+      - 9092:9092
+    depends_on:
+      - db
+      - back_server
+
+  web:
+    container_name: grpc-sample-web
+    build:
+      context: ./frontapp
+      args:
+        - app_backend=http://grpc-sample-gateway-server:9092/v1
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./frontapp/:/go/src/app
+    environment:
+      TZ: 'Asia/Tokyo'
+    ports:
+      - 3003:3000
+    depends_on:
+      - db
+      - back_server
+      - gateway_server

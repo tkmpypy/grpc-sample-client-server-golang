@@ -1,0 +1,27 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: github.com/tkmpypy/grpc-sample-client-server-golang/gateway/gen/golang/proto/todoapis/todo/v1
+    except:
+      - buf.build/googleapis/googleapis
+
+plugins:
+  - name: go
+    out: gen/golang
+    opt: 
+      - paths=source_relative
+  - name: go-grpc
+    out: gen/golang
+    opt:
+      - paths=source_relative
+      - require_unimplemented_servers=false
+  - name: grpc-gateway
+    out: gen/golang
+    opt:
+      - paths=source_relative
+      - generate_unbound_methods=true
+  - name: openapiv2
+    out: gen/openapiv2
+
+
