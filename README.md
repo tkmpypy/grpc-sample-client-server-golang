@@ -2,8 +2,8 @@
 
 ## About
 
-this sample repository is monolithic repository.
-
+this sample repository is monolithic repository.  
+this sample project implemented by used proto file defined by [this](https://github.com/tkmpypy/grpc-sample-proto) repository
 ## Prerequired
 
 | tool                                                                             | summary                                                                                                                  |
